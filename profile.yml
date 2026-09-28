@@ -1,0 +1,34 @@
+# Everything on the profile comes from this file. Edit it; never edit README.md.
+name: BIOZAL
+real_name: Aaron LaBeau
+github_user: biozal
+title: Developer Advocate @ Ditto
+class: Artificer
+career_start_year: 1994
+stats: { MOB: 20, DAT: 19, NET: 17, BAK: 16, SYN: 18, CHA: 16 }
+inventory: [swift, kotlin, csharp, typescript, javascript, java, c, python,
+            rust, flutter, react-native, sqlite, mobile-db, networking, iot, ditto]
+quests:
+  guild:
+    - repo: biozal/ditto-edge-studio
+      blurb: Query, sync and inspect Ditto databases on macOS and Android
+    - repo: ditto-examples/ditto-whiteboard-datastreams
+      blurb: Whiteboard demo built on the Ditto Data Stream API
+    - repo: ditto-examples/demoapp-retail
+      blurb: Retail demo app built on Ditto
+  side:
+    - repo: biozal/cartyx-app
+      blurb: D&D campaign manager with a retro pixel-art UI
+    - repo: biozal/cartyx-sim
+      blurb: An AI Dungeon Master and four AI players on local models
+    - repo: biozal/ttrpg-sfx
+      blurb: Local AI sound effects and music for tabletop RPGs
+feeds:
+  devto_user: biozal
+  youtube_channel_id: UCXgF-JqwBRGSawXajr6plGg
+portals:
+  - { label: dev.to,       url: "https://dev.to/biozal/" }
+  - { label: costoda.tech, url: "https://costoda.tech/#blog" }
+  - { label: YouTube,      url: "https://www.youtube.com/costoda" }
+  - { label: LinkedIn,     url: "https://www.linkedin.com/in/aaron-labeau-b444747/" }
+  - { label: Ditto Docs,   url: "https://docs.ditto.live" }
