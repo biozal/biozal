@@ -121,14 +121,16 @@ each `render/*` module returns an SVG string → `build` writes
 - `render/*` — pure functions from data to an SVG string. No network or file I/O.
 - `render/readme.py` — assembles `README.md` from section images and links.
 
-**Dependencies:** Python 3.12, `pyyaml`, and the standard library (`urllib`,
-`xml.etree`, `base64`). No image libraries are needed at build time.
+**Dependencies:** Python 3.12, `pyyaml`, `fonttools` (font subsetting only), and the
+standard library (`urllib`, `xml.etree`, `base64`). No image libraries are needed at
+build time.
 
 ### `profile.yml` shape
 
 ```yaml
 name: BIOZAL
 real_name: Aaron LaBeau
+github_user: biozal
 title: Developer Advocate @ Ditto
 class: Artificer
 career_start_year: 1994        # → Lv.32 in 2026
