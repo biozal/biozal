@@ -1,0 +1,49 @@
+{
+  "devto": [
+    {
+      "published": "2026-08-17",
+      "title": "Running Android VMs on ARM: Rebuilding the Minisforum MS-R1 Kernel for Cuttlefish",
+      "url": "https://dev.to/biozal/running-android-vms-on-arm-rebuilding-the-minisforum-ms-r1-kernel-for-cuttlefish-52a1"
+    },
+    {
+      "published": "2026-06-08",
+      "title": "Migrating a Real App to Swift 6: Data Races, a Dependency I Had to Evict, and the Compiler That Wouldn't Let Me Lie",
+      "url": "https://dev.to/biozal/migrating-a-real-app-to-swift-6-data-races-a-dependency-i-had-to-evict-and-the-compiler-that-15cm"
+    },
+    {
+      "published": "2026-04-17",
+      "title": "Porting a SwiftUI App to Avalonia: How does Cross-Platform .NET hold up",
+      "url": "https://dev.to/biozal/porting-a-swiftui-app-to-avalonia-how-does-cross-platform-net-hold-up-4ol0"
+    }
+  ],
+  "repo:biozal/cartyx-app": {
+    "description": "React Web App version of Cartyx",
+    "language": "TypeScript",
+    "stars": 2
+  },
+  "repo:biozal/cartyx-sim": {
+    "description": "The Cartyx simulator for simulating a game of Dungeons and Dragons",
+    "language": "TypeScript",
+    "stars": 1
+  },
+  "repo:biozal/ditto-edge-studio": {
+    "description": "Ditto Edge Studio",
+    "language": "Swift",
+    "stars": 6
+  },
+  "repo:biozal/ttrpg-sfx": {
+    "description": "Sound Effects for Table Top Role Playing Games using local AI on Apple MLX Hardware",
+    "language": "Shell",
+    "stars": 2
+  },
+  "repo:ditto-examples/demoapp-retail": {
+    "description": "Retail Demo App",
+    "language": "Kotlin",
+    "stars": 0
+  },
+  "repo:ditto-examples/ditto-whiteboard-datastreams": {
+    "description": "Ditto Data Stream API example app",
+    "language": "Kotlin",
+    "stars": 0
+  }
+}
