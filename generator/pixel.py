@@ -160,7 +160,7 @@ def _font_bytes() -> bytes:
 @lru_cache(maxsize=256)
 def font_face(chars: str) -> str:
     """@font-face rule embedding Press Start 2P subset to `chars`; missing glyphs fall back to monospace."""
-    font = TTFont(io.BytesIO(_font_bytes()))
+    font = TTFont(io.BytesIO(_font_bytes()), recalcTimestamp=False)  # stable bytes across builds
     subsetter = subset.Subsetter(subset.Options())
     subsetter.populate(text=chars)
     subsetter.subset(font)

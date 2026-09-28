@@ -14,7 +14,7 @@ T = TypeVar("T")
 def load_cache(path: Path) -> dict:
     try:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (OSError, ValueError):  # missing, unreadable, non-UTF-8 or invalid JSON
         return {}
     return data if isinstance(data, dict) else {}
 

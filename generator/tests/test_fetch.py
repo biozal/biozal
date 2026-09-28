@@ -70,3 +70,9 @@ def test_fetchers_build_urls_and_headers():
 def test_malformed_payload_raises():
     with pytest.raises(Exception):
         parse_devto(b"<html>rate limited</html>")
+
+
+def test_devto_null_title_raises():
+    payload = json.dumps([{"title": None, "url": "https://x", "published_at": "2026-01-01T00:00:00Z"}]).encode()
+    with pytest.raises(ValueError):
+        parse_devto(payload)

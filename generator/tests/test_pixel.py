@@ -87,3 +87,20 @@ def test_data_uri():
 
 def test_palette_has_accent():
     assert PALETTE["accent"] == "#85adff"
+
+
+def test_font_subset_is_deterministic():
+    """Subset fonts must not stamp the build time, or every nightly build rewrites every SVG."""
+    import base64
+    import io
+    import re as _re
+
+    from fontTools.ttLib import TTFont
+
+    from generator.pixel import FONT_PATH
+
+    rule = font_face("DET")
+    data = base64.b64decode(_re.search(r"base64,([^)]+)\)", rule).group(1))
+    subset_head = TTFont(io.BytesIO(data))["head"]
+    original_head = TTFont(FONT_PATH)["head"]
+    assert subset_head.modified == original_head.modified

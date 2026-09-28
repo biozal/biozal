@@ -43,3 +43,22 @@ def test_load_and_save_roundtrip(tmp_path):
     assert decode_repo(load_cache(path)["repo:a/b"]) == RepoStats("d", "Go", 3)
     path.write_text("{not json")
     assert load_cache(path) == {}
+
+
+def test_non_utf8_cache_file_is_ignored(tmp_path):
+    path = tmp_path / "cache.json"
+    path.write_bytes(b"\xff\xfe\x00garbage")
+    assert load_cache(path) == {}
+
+
+def test_wrong_typed_cache_items_are_unreadable():
+    logs = []
+    cache = {"devto": [{"title": None, "url": "https://x", "published": "2026-01-01"}]}
+    assert resolve(cache, "devto", boom, encode_items, decode_items, logs.append) is None
+    assert "unreadable" in logs[-1]
+
+
+def test_wrong_typed_cached_repo_is_unreadable():
+    logs = []
+    cache = {"repo:a/b": {"description": 5, "language": "Go", "stars": 1}}
+    assert resolve(cache, "repo:a/b", boom, encode_repo, decode_repo, logs.append) is None
