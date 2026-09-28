@@ -43,7 +43,6 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
     if unknown:
         raise ConfigError(f"profile.yml: unknown inventory items: {', '.join(unknown)} "
                           f"(known: {', '.join(sorted(ITEMS))})")
-    portrait = (root / "assets" / "portrait.png").read_bytes()
 
     out = root / GENERATED
     cache_path = out / "cache.json"
@@ -58,7 +57,7 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
         return row([Card(add(f"header-{_slug(title)}.svg", render_header(title)), title.title(), "100%")])
 
     lvl = level(profile.career_start_year, today)
-    blocks = [row([Card(add("banner.svg", render_banner(profile, portrait, today)),
+    blocks = [row([Card(add("banner.svg", render_banner(profile, today)),
                         f"{profile.name}: Lv.{lvl} {profile.char_class}, {profile.title}", "100%")])]
 
     blocks.append(header("CHARACTER SHEET"))

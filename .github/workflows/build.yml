@@ -9,7 +9,6 @@ on:
     paths:
       - profile.yml
       - generator/**
-      - assets/portrait.png
       - assets/fonts/**
       - requirements.txt
       - .github/workflows/build.yml

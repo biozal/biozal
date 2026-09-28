@@ -1,15 +1,17 @@
-"""Title-screen banner: portrait, flickering torches, name, level and XP bar."""
+"""Title-card banner: flickering torches, name, level and XP bar. The portrait is the GitHub avatar."""
 from __future__ import annotations
 
 import calendar
 from datetime import date
 
 from generator.config import Profile, level
-from generator.pixel import PALETTE as P, bar, data_uri, fit, grid_to_svg, rect, svg_doc, text, window
+from generator.pixel import PALETTE as P, bar, fit, grid_to_svg, rect, svg_doc, text, window
 
-W, H = 830, 300
-TEXT_X = 320
-TEXT_MAX_W = W - 340
+W, H = 830, 220
+CX = W // 2
+TEXT_MAX_W = W - 240  # clear of the torches
+XP_BAR_W = 300
+XP_ROW_W = 26 + XP_BAR_W + 56
 
 FLAME = [
     "..y..",
@@ -29,7 +31,6 @@ CSS = (
     ".flame2{animation-delay:-.45s}"
     "@keyframes glow{0%,100%{opacity:.55}50%{opacity:.35}}"
     ".glow{animation:glow 1.8s ease-in-out infinite}"
-    ".portrait{image-rendering:pixelated}"
     "@media (prefers-reduced-motion:reduce){.flame,.glow{animation:none}}"
 )
 
@@ -60,26 +61,25 @@ def _torch(x: int, y: int, extra_cls: str = "") -> str:
     return glow + handle + flame + grid_to_svg(FLAME, FLAME_COLORS, x, y, 4) + "</g>"
 
 
-def render_banner(profile: Profile, portrait_png: bytes, today: date) -> str:
+def render_banner(profile: Profile, today: date) -> str:
     lvl = level(profile.career_start_year, today)
-    name, name_size = fit(profile.name, TEXT_MAX_W, 40)
+    name, name_size = fit(profile.name, TEXT_MAX_W, 48)
     title, title_size = fit(profile.title, TEXT_MAX_W, 12)
     subtitle, sub_size = fit(f"Lv.{lvl} {profile.char_class}", TEXT_MAX_W, 14)
+    real_name, real_size = fit(profile.real_name, TEXT_MAX_W, 8)
+    xp_x = CX - XP_ROW_W // 2
     body = [
         window(0, 0, W, H),
         rect(6, 6, W - 12, H - 12, "url(#brick)"),
-        _torch(284, 20),
-        _torch(790, 20, "flame2"),
-        rect(24, 24, 252, 252, P["shadow"]),
-        rect(26, 26, 248, 248, P["border_hi"]),
-        f'<image class="portrait" x="30" y="30" width="240" height="240" href="{data_uri(portrait_png)}"/>',
-        text(TEXT_X + 4, 104, name, name_size, P["shadow"]),
-        text(TEXT_X, 100, name, name_size, P["amber"]),
-        text(TEXT_X, 140, subtitle, sub_size, P["parchment"]),
-        text(TEXT_X, 168, title, title_size, P["text"]),
-        text(TEXT_X, 190, profile.real_name, 8, P["muted"]),
-        text(TEXT_X, 222, "XP", 8, P["amber"]),
-        bar(TEXT_X + 26, 212, 260, 12, xp_fraction(today)),
-        text(TEXT_X + 294, 222, f"LV.{lvl + 1}", 8, P["muted"]),
+        _torch(60, 70),
+        _torch(750, 70, "flame2"),
+        text(CX + 4, 84, name, name_size, P["shadow"], anchor="middle"),
+        text(CX, 80, name, name_size, P["amber"], anchor="middle"),
+        text(CX, 118, subtitle, sub_size, P["parchment"], anchor="middle"),
+        text(CX, 144, title, title_size, P["text"], anchor="middle"),
+        text(CX, 164, real_name, real_size, P["muted"], anchor="middle"),
+        text(xp_x + 8, 196, "XP", 8, P["amber"], anchor="middle"),
+        bar(xp_x + 26, 186, XP_BAR_W, 12, xp_fraction(today)),
+        text(xp_x + 26 + XP_BAR_W + 28, 196, f"LV.{lvl + 1}", 8, P["muted"], anchor="middle"),
     ]
     return svg_doc(W, H, "".join(body), css=CSS, defs=DEFS)

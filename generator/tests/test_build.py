@@ -33,8 +33,6 @@ def bad_get(url, headers=None):
 @pytest.fixture
 def root(tmp_path):
     shutil.copy(ROOT / "profile.yml", tmp_path / "profile.yml")
-    (tmp_path / "assets").mkdir()
-    shutil.copy(ROOT / "assets" / "portrait.png", tmp_path / "assets" / "portrait.png")
     return tmp_path
 
 
