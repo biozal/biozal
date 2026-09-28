@@ -1,4 +1,4 @@
-"""Title-screen banner: portrait, flickering torches, name, level and a blinking PRESS START."""
+"""Title-screen banner: portrait, flickering torches, name, level and XP bar."""
 from __future__ import annotations
 
 import calendar
@@ -29,10 +29,8 @@ CSS = (
     ".flame2{animation-delay:-.45s}"
     "@keyframes glow{0%,100%{opacity:.55}50%{opacity:.35}}"
     ".glow{animation:glow 1.8s ease-in-out infinite}"
-    "@keyframes blink{50%{opacity:0}}"
-    ".blink{animation:blink 1.2s steps(1) infinite}"
     ".portrait{image-rendering:pixelated}"
-    "@media (prefers-reduced-motion:reduce){.flame,.glow,.blink{animation:none}}"
+    "@media (prefers-reduced-motion:reduce){.flame,.glow{animation:none}}"
 )
 
 DEFS = (
@@ -83,6 +81,5 @@ def render_banner(profile: Profile, portrait_png: bytes, today: date) -> str:
         text(TEXT_X, 222, "XP", 8, P["amber"]),
         bar(TEXT_X + 26, 212, 260, 12, xp_fraction(today)),
         text(TEXT_X + 294, 222, f"LV.{lvl + 1}", 8, P["muted"]),
-        text(TEXT_X, 266, "> PRESS START", 12, P["accent"], cls="t blink"),
     ]
     return svg_doc(W, H, "".join(body), css=CSS, defs=DEFS)

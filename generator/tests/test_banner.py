@@ -21,7 +21,8 @@ def test_banner_content(profile):
     assert "BIOZAL" in all_text
     assert "Lv.32 Artificer" in all_text
     assert "Developer Advocate @ Ditto" in all_text
-    assert "> PRESS START" in all_text
+    assert not any("PRESS START" in t for t in all_text), "no fake call-to-action: the banner isn't clickable"
+    assert "blink" not in svg
     assert "LV.33" in all_text
     assert "data:image/png;base64," in svg
     assert "@keyframes flick" in svg and "prefers-reduced-motion" in svg
