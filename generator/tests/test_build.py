@@ -36,6 +36,12 @@ def root(tmp_path):
     return tmp_path
 
 
+def gen(root, stem):
+    """Contents of the generated SVG for `stem` (file names carry a content hash)."""
+    [path] = (root / "assets/generated").glob(f"{stem}-*.svg")
+    return path.read_text()
+
+
 def run(root, get=good_get):
     return build(root, TODAY, get, None, log=lambda m: None)
 
@@ -43,7 +49,7 @@ def run(root, get=good_get):
 def test_build_writes_readme_and_valid_svgs(root):
     readme = run(root)
     assert (root / "README.md").read_text() == readme
-    srcs = re.findall(r'src="(assets/generated/[^"?]+)\?v=[0-9a-f]{10}"', readme)
+    srcs = re.findall(r'src="(assets/generated/[a-z0-9-]+-[0-9a-f]{10}\.svg)"', readme)
     assert len(srcs) == len(set(srcs)) == 1 + 5 + 2 + 6 + 2 + 5
     for src in srcs:
         assert_valid_svg((root / src).read_text())
@@ -52,12 +58,12 @@ def test_build_writes_readme_and_valid_svgs(root):
                 "https://www.linkedin.com/in/aaron-labeau-b444747/"]:
         assert f'href="{url}"' in readme
     assert "pacman-contribution-graph-dark.svg" in readme
-    assert "Swift 6 &amp; friends" in (root / "assets/generated/scroll-devto-1.svg").read_text()
+    assert "Swift 6 &amp; friends" in gen(root, "scroll-devto-1")
 
 
 def test_offline_first_build_uses_sealed_scrolls(root):
     readme = run(root, bad_get)
-    assert "THE SCROLLS ARE SEALED" in (root / "assets/generated/scroll-devto-1.svg").read_text()
+    assert "THE SCROLLS ARE SEALED" in gen(root, "scroll-devto-1")
     assert 'href="https://dev.to/biozal"' in readme
     assert 'href="https://www.youtube.com/channel/UCXgF-JqwBRGSawXajr6plGg"' in readme
 
@@ -65,20 +71,20 @@ def test_offline_first_build_uses_sealed_scrolls(root):
 def test_offline_rebuild_keeps_cached_content(root):
     run(root)
     run(root, bad_get)
-    assert "Swift 6" in (root / "assets/generated/scroll-devto-1.svg").read_text()
-    assert ">6</text>" in (root / "assets/generated/quest-biozal-ditto-edge-studio.svg").read_text()
+    assert "Swift 6" in gen(root, "scroll-devto-1")
+    assert ">6</text>" in gen(root, "quest-biozal-ditto-edge-studio")
 
 
 def test_empty_feed_renders_sealed_scroll(root):
     def get(url, headers=None):
         return b"[]" if "dev.to" in url else good_get(url, headers)
     run(root, get)
-    assert "SEALED" in (root / "assets/generated/scroll-devto-1.svg").read_text()
+    assert "SEALED" in gen(root, "scroll-devto-1")
 
 
 def test_stale_svgs_are_removed(root):
     run(root)
-    stale = root / "assets/generated/quest-old-thing.svg"
+    stale = root / "assets/generated/quest-old-thing-0123456789.svg"
     stale.write_text("<svg/>")
     run(root)
     assert not stale.exists()
@@ -107,9 +113,10 @@ def test_main_reports_config_errors(monkeypatch, capsys, root):
 
 
 def test_image_links_change_when_content_changes(root):
-    """Browsers cache images for minutes; a content-hash query makes updates show immediately."""
-    before = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
-    same = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
+    """GitHub serves images with max-age=300 and its /raw/ redirect drops query strings,
+    so the content hash must be in the file name for updates to show immediately."""
+    before = re.search(r'src="assets/generated/banner-([0-9a-f]+)\.svg"', run(root)).group(1)
+    same = re.search(r'src="assets/generated/banner-([0-9a-f]+)\.svg"', run(root)).group(1)
     (root / "profile.yml").write_text((root / "profile.yml").read_text().replace("name: BIOZAL", "name: BIOZAL2"))
-    after = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
+    after = re.search(r'src="assets/generated/banner-([0-9a-f]+)\.svg"', run(root)).group(1)
     assert before == same != after

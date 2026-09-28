@@ -50,32 +50,32 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
     cache = load_cache(cache_path)
     files: dict[str, str] = {}
 
-    def add(name: str, svg: str) -> str:
+    def add(stem: str, svg: str) -> str:
+        # The content hash lives in the file name: GitHub serves images with max-age=300
+        # and its /raw/ redirect drops query strings, so a changed image needs a new path.
+        name = f"{stem}-{hashlib.sha256(svg.encode('utf-8')).hexdigest()[:10]}.svg"
         files[name] = svg
-        # Content-hash query: GitHub serves images with max-age=300, so a changed
-        # image needs a new URL to show up immediately.
-        version = hashlib.sha256(svg.encode("utf-8")).hexdigest()[:10]
-        return f"{GENERATED}/{name}?v={version}"
+        return f"{GENERATED}/{name}"
 
     def header(title: str) -> str:
-        return row([Card(add(f"header-{_slug(title)}.svg", render_header(title)), title.title(), "100%")])
+        return row([Card(add(f"header-{_slug(title)}", render_header(title)), title.title(), "100%")])
 
     lvl = level(profile.career_start_year, today)
-    blocks = [row([Card(add("banner.svg", render_banner(profile, today)),
+    blocks = [row([Card(add("banner", render_banner(profile, today)),
                         f"{profile.name}: Lv.{lvl} {profile.char_class}, {profile.title}", "100%")])]
 
     blocks.append(header("CHARACTER SHEET"))
     stats_alt = "Stats: " + ", ".join(f"{k} {v}" for k, v in profile.stats.items())
     inventory_alt = "Inventory: " + ", ".join(ITEMS[i][0] for i in profile.inventory)
-    blocks.append(row([Card(add("stats.svg", render_stats(profile)), stats_alt, "49%"),
-                       Card(add("inventory.svg", render_inventory(profile)), inventory_alt, "49%")]))
+    blocks.append(row([Card(add("stats", render_stats(profile)), stats_alt, "49%"),
+                       Card(add("inventory", render_inventory(profile)), inventory_alt, "49%")]))
 
     blocks.append(header("QUEST LOG"))
     quest_cards = []
     for quest in profile.quests:
         stats = resolve(cache, f"repo:{quest.repo}", lambda q=quest: fetch_repo(q.repo, token, get),
                         encode_repo, decode_repo, log)
-        src = add(f"quest-{_slug(quest.repo)}.svg", render_quest(quest, stats))
+        src = add(f"quest-{_slug(quest.repo)}", render_quest(quest, stats))
         quest_cards.append(Card(src, f"{quest.repo}: {quest.blurb or ''}".rstrip(": "), "49%",
                                 f"https://github.com/{quest.repo}"))
     blocks += _pairs(quest_cards)
@@ -90,10 +90,10 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
     for source, fetch, home in feeds:
         items = resolve(cache, source, fetch, encode_items, decode_items, log) or []
         if not items:
-            src = add(f"scroll-{source}-1.svg", render_sealed_scroll(source))
+            src = add(f"scroll-{source}-1", render_sealed_scroll(source))
             scroll_cards.append(Card(src, f"{source}: visit the archive", "49%", home))
         for n, item in enumerate(items, start=1):
-            src = add(f"scroll-{source}-{n}.svg", render_scroll(item, source))
+            src = add(f"scroll-{source}-{n}", render_scroll(item, source))
             scroll_cards.append(Card(src, item.title, "49%", item.url or home))
     blocks += _pairs(scroll_cards)
 
@@ -101,7 +101,7 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
     blocks.append(pacman(profile.github_user))
 
     blocks.append(header("PORTALS"))
-    blocks.append(row([Card(add(f"portal-{_slug(p.label)}.svg", render_portal(p)), p.label, "19%", p.url)
+    blocks.append(row([Card(add(f"portal-{_slug(p.label)}", render_portal(p)), p.label, "19%", p.url)
                        for p in profile.portals]))
 
     readme = render_readme(blocks)
