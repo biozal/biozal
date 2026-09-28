@@ -43,7 +43,7 @@ def run(root, get=good_get):
 def test_build_writes_readme_and_valid_svgs(root):
     readme = run(root)
     assert (root / "README.md").read_text() == readme
-    srcs = re.findall(r'src="(assets/generated/[^"]+)"', readme)
+    srcs = re.findall(r'src="(assets/generated/[^"?]+)\?v=[0-9a-f]{10}"', readme)
     assert len(srcs) == len(set(srcs)) == 1 + 5 + 2 + 6 + 2 + 5
     for src in srcs:
         assert_valid_svg((root / src).read_text())
@@ -104,3 +104,12 @@ def test_main_reports_config_errors(monkeypatch, capsys, root):
     monkeypatch.setattr("generator.build.ROOT", root)
     assert main([]) == 1
     assert "error:" in capsys.readouterr().err
+
+
+def test_image_links_change_when_content_changes(root):
+    """Browsers cache images for minutes; a content-hash query makes updates show immediately."""
+    before = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
+    same = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
+    (root / "profile.yml").write_text((root / "profile.yml").read_text().replace("name: BIOZAL", "name: BIOZAL2"))
+    after = re.search(r'src="assets/generated/banner.svg\?v=([0-9a-f]+)"', run(root)).group(1)
+    assert before == same != after

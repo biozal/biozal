@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import sys
@@ -51,7 +52,10 @@ def build(root: Path = ROOT, today: date | None = None, get: Getter = http_get,
 
     def add(name: str, svg: str) -> str:
         files[name] = svg
-        return f"{GENERATED}/{name}"
+        # Content-hash query: GitHub serves images with max-age=300, so a changed
+        # image needs a new URL to show up immediately.
+        version = hashlib.sha256(svg.encode("utf-8")).hexdigest()[:10]
+        return f"{GENERATED}/{name}?v={version}"
 
     def header(title: str) -> str:
         return row([Card(add(f"header-{_slug(title)}.svg", render_header(title)), title.title(), "100%")])
