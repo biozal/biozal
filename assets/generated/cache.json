@@ -45,5 +45,22 @@
     "description": "Ditto Data Stream API example app",
     "language": "Kotlin",
     "stars": 0
-  }
+  },
+  "youtube": [
+    {
+      "published": "2025-06-10",
+      "title": "MacOS 26 Installation and testing XCode Coding SwiftUI with Ditto",
+      "url": "https://www.youtube.com/watch?v=jD7ipe60VY0"
+    },
+    {
+      "published": "2025-06-08",
+      "title": "Coding SwiftUI with Ditto",
+      "url": "https://www.youtube.com/watch?v=6oihYGYeIDc"
+    },
+    {
+      "published": "2025-06-07",
+      "title": "Friday Afternoon - SwiftUI with Ditto",
+      "url": "https://www.youtube.com/watch?v=p4KTUIUJudI"
+    }
+  ]
 }

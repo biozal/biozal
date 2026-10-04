@@ -43,7 +43,12 @@
 
 <p align="center">
 <a href="https://dev.to/biozal/porting-a-swiftui-app-to-avalonia-how-does-cross-platform-net-hold-up-4ol0"><img src="assets/generated/scroll-devto-3-d58bd9c2af.svg" alt="Porting a SwiftUI App to Avalonia: How does Cross-Platform .NET hold up" width="49%"></a>
-<a href="https://www.youtube.com/channel/UCXgF-JqwBRGSawXajr6plGg"><img src="assets/generated/scroll-youtube-1-af0f9e981a.svg" alt="youtube: visit the archive" width="49%"></a>
+<a href="https://www.youtube.com/watch?v=jD7ipe60VY0"><img src="assets/generated/scroll-youtube-1-296cf0acc6.svg" alt="MacOS 26 Installation and testing XCode Coding SwiftUI with Ditto" width="49%"></a>
+</p>
+
+<p align="center">
+<a href="https://www.youtube.com/watch?v=6oihYGYeIDc"><img src="assets/generated/scroll-youtube-2-640525708a.svg" alt="Coding SwiftUI with Ditto" width="49%"></a>
+<a href="https://www.youtube.com/watch?v=p4KTUIUJudI"><img src="assets/generated/scroll-youtube-3-4bed5348b1.svg" alt="Friday Afternoon - SwiftUI with Ditto" width="49%"></a>
 </p>
 
 <p align="center">
