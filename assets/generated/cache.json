@@ -43,7 +43,7 @@
   },
   "repo:ditto-examples/ditto-whiteboard-datastreams": {
     "description": "Ditto Data Stream API example app",
-    "language": "Kotlin",
+    "language": "Swift",
     "stars": 0
   },
   "youtube": [

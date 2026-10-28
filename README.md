@@ -19,7 +19,7 @@
 
 <p align="center">
 <a href="https://github.com/biozal/ditto-edge-studio"><img src="assets/generated/quest-biozal-ditto-edge-studio-cf4edccfa5.svg" alt="biozal/ditto-edge-studio: Query, sync and inspect Ditto databases on macOS and Android" width="49%"></a>
-<a href="https://github.com/ditto-examples/ditto-whiteboard-datastreams"><img src="assets/generated/quest-ditto-examples-ditto-whiteboard-datastreams-d42f338fd8.svg" alt="ditto-examples/ditto-whiteboard-datastreams: Whiteboard demo built on the Ditto Data Stream API" width="49%"></a>
+<a href="https://github.com/ditto-examples/ditto-whiteboard-datastreams"><img src="assets/generated/quest-ditto-examples-ditto-whiteboard-datastreams-78c28c44e3.svg" alt="ditto-examples/ditto-whiteboard-datastreams: Whiteboard demo built on the Ditto Data Stream API" width="49%"></a>
 </p>
 
 <p align="center">
