@@ -44,7 +44,7 @@
   "repo:ditto-examples/ditto-whiteboard-datastreams": {
     "description": "Ditto Data Stream API example app",
     "language": "Swift",
-    "stars": 0
+    "stars": 1
   },
   "youtube": [
     {
